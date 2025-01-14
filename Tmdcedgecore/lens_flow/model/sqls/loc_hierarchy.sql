@@ -1,5 +1,5 @@
 SELECT
-    TO_DATE(ds, 'DD/MM/YYYY') AS booking_date,
+    TO_DATE(ds, 'DD/MM/YYYY') AS lh_booking_date,
     location_id,
     region_id,
     geo_id,
