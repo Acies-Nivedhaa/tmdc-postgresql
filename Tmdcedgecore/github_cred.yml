@@ -11,4 +11,4 @@ instance-secret:
   acl: r # Access control list (mandatory)
   data: # Data (mandatory)
     GITSYNC_USERNAME: Acies-Nivedhaa
-    GITSYNC_PASSWORD: Skills@1997
+    GITSYNC_PASSWORD: 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
