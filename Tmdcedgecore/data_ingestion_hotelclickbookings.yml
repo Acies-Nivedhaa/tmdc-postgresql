@@ -1,0 +1,70 @@
+version: v1  # v1
+name: niv-hb-data
+type: workflow
+tags:
+  - hotel bookings
+description: Ingesting hotel bookings data into lakehouse from ecpgdepot
+workflow:
+  # schedule:
+  #   cron: '00 20 * * *'
+  #  # endOn: '2023-12-12T22:00:00Z'
+  #   concurrencyPolicy: Forbid
+  dag:
+    - name: dg-niv-hotel-bookings-data
+      # title: flatten  Data Ingester
+      # description: The job ingests Adobe flatten  data from S3 into icebase zone
+      spec:
+        tags:
+          - hotel bookings
+        stack: flare:6.0
+        compute: runnable-default
+        stackSpec:
+          driver:
+            coreLimit: 2000m
+            cores: 1
+            memory: 2000m
+          executor:
+            coreLimit: 2000m
+            cores: 1
+            instances: 1
+            memory: 2000m
+          job:
+            explain: true
+            inputs:
+              - name: hb
+                dataset: dataos://ecpgdepot:public/hotel_click_bookings
+                options:
+                  driver: org.postgresql.Driver
+            logLevel: INFO
+            outputs:
+              - name: final_hb
+                dataset: dataos://lakehouse:nivedhaa/hotel_bookings?acl=rw
+                format: Iceberg
+                options:
+                  saveMode: overwrite
+                  iceberg:
+                    properties:
+                      write.format.default: parquet
+                      write.metadata.compression-codec: gzip
+                    # partitionSpec:
+                    #   - type: day
+                    #     column: date_time
+                    #     name: day
+            steps:
+              - sequence:
+                  - name: final_hb
+                    sql: >
+                      SELECT 
+                        ds,
+                        location_id, 
+                        geo_id, 
+                        location_name,
+                        geo_name,
+                        booking_id,
+                        advertiser_id,
+                        campaign_id,
+                        user_id,
+                        impression_count,
+                        interaction_count
+                      FROM hb
+

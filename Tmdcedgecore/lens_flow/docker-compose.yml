@@ -1,0 +1,40 @@
+version: "2.2"
+
+x-lens2-environment: &lens2-environment
+  # DataOS
+  DATAOS_FQDN: liberal-donkey.dataos.app
+  # Overview
+  LENS2_NAME: product360
+  LENS2_DESCRIPTION: "Ecommerce use case on product data"
+  LENS2_TAGS: "lens2, ecom, product  insights"
+  LENS2_AUTHORS: "iamgroot, ironman"
+  LENS2_SCHEDULED_REFRESH_TIMEZONES: "UTC,Kolkata/Asia"
+  # Data Source
+  LENS2_SOURCE_TYPE: minerva #source cluster (minerva, themis)
+  LENS2_SOURCE_NAME: postresdptest #system #cluster_name
+  LENS2_SOURCE_CATALOG_NAME: postgresdp  #icebase #catalogue/depot_name
+  DATAOS_RUN_AS_APIKEY: dG9NDJjZTEwZDMtMjcwMC00MDZlLThlYTgtMGNlZDk3MDNjODI3
+  # Log
+  LENS2_LOG_LEVEL: error
+  CACHE_LOG_LEVEL: "trace"
+  # Operation
+  LENS2_DEV_MODE: true
+  LENS2_DEV_MODE_PLAYGROUND: false
+  LENS2_REFRESH_WORKER: true
+  LENS2_SCHEMA_PATH: model
+  LENS2_PG_SQL_PORT: 5432
+  CACHE_DATA_DIR: "/var/work/.store"
+  NODE_ENV: production
+  LENS2_ALLOW_UNGROUPED_WITHOUT_PRIMARY_KEY: "true"
+services:
+  api:
+    restart: always
+    image: rubiklabs/lens2:0.35.55-01
+    ports:
+      - 4000:4000
+      - 25432:5432
+      - 13306:13306
+    environment:
+      <<: *lens2-environment   
+    volumes:
+      - ./model:/etc/dataos/work/model

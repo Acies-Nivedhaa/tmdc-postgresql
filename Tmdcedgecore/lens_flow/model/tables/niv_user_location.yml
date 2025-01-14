@@ -1,0 +1,116 @@
+tables:
+  - name: niv_user_location
+    # Path of the sql file, example - {{table_name.sql}}
+    sql: load_sql('user_loc')
+    description: Gives user location details about geography, user info etc.
+    # Set this property to true/false to control visibilty of table. 
+    public: true # table will be visible to everyone
+
+    # To establish relationship with other table (this will always create left join)
+    # joins:
+    #   - name: niv_click_to_book
+    #     relationship: one_to_many
+    #     sql: TABLE.location_id = niv_click_to_book.location_id
+
+    dimensions:
+        # Name should follow snake-case format
+      - name: booking_date
+        type: date
+        column: booking_date
+        description: "Date column"
+
+      - name: user_id
+        type: number
+        column: user_id
+        description: "Unique user ID"
+      
+      - name: location_id
+        type: number
+        column: location_id
+        description: "Unique location ID"
+
+      - name: geo_id
+        type: number
+        column: geo_id
+        description: "Unique geographic ID"
+
+      - name: location_name
+        type: string
+        column: location_name
+        description: "Name of the State"
+
+      - name: geo_name
+        type: string
+        column: geo_name
+        description: "Name of the Country"
+
+      - name: booking_id
+        type: number
+        column: booking_id
+        description: "Unique identifier for booking"
+
+      - name: advertiser_id
+        type: number
+        column: advertiser_id
+        description: "Unique identifier for advertiser"
+
+      - name: campaign_id
+        type: number
+        column: campaign_id
+        description: "Unique identifier for Campaign"
+
+      - name: booking_amount
+        type: number
+        column: booking_amount 
+        description: "Cost associated with the booking"
+
+      - name: currency
+        type: string
+        column: currency 
+        description: "Type of currency used for the booking"
+
+      - name: booking_status
+        type: string
+        column: booking_status
+        description: "Number of impressions"
+
+      - name: impression_count
+        type: number
+        column: impression_count
+        description: "Number of impressions"
+
+      - name: interaction_count
+        type: number
+        column: interaction_count
+        description: "Number of interactions"
+
+      - name: pageview_count
+        type: number
+        column: pageview_count
+        description: "Number of interactions"
+
+    measures:
+      - name: total_bookings
+        description: "Total number of bookings"
+        # Define custome SQL snippet or map dimension
+        sql: "COUNT({booking_id})"
+        # Set type for this measure (types - string,time,boolean,number,count,count_distinct,count_distinct_approx,sum,avg,min,max)
+        type: number
+        # To apply additional filter
+        # filters:
+        #   - sql: "{TABLE}.dimension_name = 'dimension_value' "
+        # meta:
+        #   key: value
+
+    # To create frequently used complex filters 
+    # And can also be used to apply row filter policy on a group of users
+    # segments:
+    #   - name: segment_name
+    #     public: true
+    #     # SQL statement for filter
+    #     sql: "{TABLE}.dimension_name = 'dimension_value'"
+    #     meta:
+    #       # To apply pre-defined filter by default to user groups
+    #       secure:
+    #         user_groups:
+    #           - default

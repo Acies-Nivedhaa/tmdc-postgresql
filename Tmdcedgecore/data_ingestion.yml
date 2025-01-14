@@ -1,0 +1,67 @@
+version: v1  # v1
+name: ecpg-data
+type: workflow
+tags:
+  - crm
+description: Ingesting customer data in lakehouse
+workflow:
+  # schedule:
+  #   cron: '00 20 * * *'
+  #  # endOn: '2023-12-12T22:00:00Z'
+  #   concurrencyPolicy: Forbid
+  dag:
+    - name: dg-ec-postgres-data
+      # title: flatten  Data Ingester
+      # description: The job ingests Adobe flatten  data from S3 into icebase zone
+      spec:
+        tags:
+          - crm
+        stack: flare:6.0
+        compute: runnable-default
+        stackSpec:
+          driver:
+            coreLimit: 2000m
+            cores: 1
+            memory: 2000m
+          executor:
+            coreLimit: 2000m
+            cores: 1
+            instances: 1
+            memory: 2000m
+          job:
+            explain: true
+            inputs:
+              - name: booking_data
+                dataset: dataos://ecpgdepot:public/bookingitem
+                options:
+                  driver: org.postgresql.Driver
+            logLevel: INFO
+            outputs:
+              - name: final
+                dataset: dataos://lakehouse:nivedhaa/bookings?acl=rw
+                format: Iceberg
+                options:
+                  saveMode: overwrite
+                  iceberg:
+                    properties:
+                      write.format.default: parquet
+                      write.metadata.compression-codec: gzip
+                    # partitionSpec:
+                    #   - type: day
+                    #     column: date_time
+                    #     name: day
+            steps:
+              - sequence:
+                  - name: final
+                    sql: >
+                      SELECT 
+                        firsttransactiondate,
+                        firsttransactiondatetime, 
+                        productcode, 
+                        grossbookingusd,
+                        grosspax,
+                        daystotravel,
+                        sessionid,
+                        orgcode
+                      FROM booking_data
+

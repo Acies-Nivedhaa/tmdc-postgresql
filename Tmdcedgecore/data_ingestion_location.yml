@@ -1,0 +1,67 @@
+version: v1  # v1
+name: niv-loc-data
+type: workflow
+tags:
+  - Location hierarchy data
+description: Ingesting location into lakehouse from ecpgdepot
+workflow:
+  # schedule:
+  #   cron: '00 20 * * *'
+  #  # endOn: '2023-12-12T22:00:00Z'
+  #   concurrencyPolicy: Forbid
+  dag:
+    - name: dg-niv-location-data
+      # title: flatten  Data Ingester
+      # description: The job ingests Adobe flatten  data from S3 into icebase zone
+      spec:
+        tags:
+          - Location Hierarchy data
+        stack: flare:6.0
+        compute: runnable-default
+        stackSpec:
+          driver:
+            coreLimit: 2000m
+            cores: 1
+            memory: 2000m
+          executor:
+            coreLimit: 2000m
+            cores: 1
+            instances: 1
+            memory: 2000m
+          job:
+            explain: true
+            inputs:
+              - name: location
+                dataset: dataos://ecpgdepot:public/location_hierarchy
+                options:
+                  driver: org.postgresql.Driver
+            logLevel: INFO
+            outputs:
+              - name: final_loc
+                dataset: dataos://lakehouse:nivedhaa/loc_hierarchy?acl=rw
+                format: Iceberg
+                options:
+                  saveMode: overwrite
+                  iceberg:
+                    properties:
+                      write.format.default: parquet
+                      write.metadata.compression-codec: gzip
+                    # partitionSpec:
+                    #   - type: day
+                    #     column: date_time
+                    #     name: day
+            steps:
+              - sequence:
+                  - name: final_loc
+                    sql: >
+                      SELECT 
+                        ds,
+                        location_id, 
+                        region_id, 
+                        geo_id,
+                        hierarchy_level,
+                        location_name,
+                        region_name,
+                        parent_hierarchy_id
+                      FROM location
+

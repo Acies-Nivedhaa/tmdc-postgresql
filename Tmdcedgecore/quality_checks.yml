@@ -1,0 +1,145 @@
+# # name: ecpg_quality
+# # version: v1
+# # type: workflow
+# # tags:
+# #   - workflow
+# #   - soda-checks
+# # description: Applying quality checks for the booking data
+# # workspace: public
+# # workflow:
+# #   # schedule:
+# #   #   cron: '00 08 * * *'
+# #   #  # endOn: '2023-12-12T22:00:00Z'
+# #   #   concurrencyPolicy: Forbid
+# #   dag:
+# #     - name: soda-ecpg-quality
+# #       spec:
+# #         stack: soda+python:1.0
+# #         compute: runnable-default
+# #         resources:
+# #           requests:
+# #             cpu: 1000m
+# #             memory: 250Mi
+# #           limits:
+# #             cpu: 1000m
+# #             memory: 250Mi
+# #         logLevel: INFO # WARNING, ERROR, DEBUG
+# #         stackSpec:
+# #           inputs:
+# #             - dataset: dataos://ecpgdepot:public/bookingitem
+# #               options:
+# #                 engine: minerva
+# #                 clusterName: miniature
+# #               profile:
+# #                 columns:
+# #                   - include *
+# #               checks:  
+# #               #   - schema:
+# #               #       name: Data type of birth year should be integer
+# #               #       fail:
+# #               #         when wrong column type:
+# #               #           birth_year: string
+# #               #       attributes:
+# #               #         category: Schema
+
+# #               #   - invalid_count(customer_id) = 0 :
+# #               #       name: Customer Id  should not be null
+# #               #       valid min: 1
+# #               #       attributes:
+# #               #         category: Validity
+
+# #                 - missing_count(productcode) = 0:
+# #                     name:  Product Code should not be zero
+# #                     attributes:
+# #                       category: Completeness
+
+# #               #   - duplicate_count(customer_id) = 0:
+# #               #       name:  Customer Id should not be duplicated
+# #               #       attributes:
+# #               #         category: Uniqueness
+
+# #               #   - avg_length(country) > 6:
+# #               #       name:  Average length of country more than 6
+# #               #       attributes:
+# #               #         category: Accuracy
+
+name: ecpg-quality
+version: v1
+type: workflow
+tags:
+  - workflow
+  - soda-checks
+description: Applying quality checks for the customer data
+workspace: public
+workflow:
+  # schedule:
+  #   cron: '00 08 * * *'
+  #  # endOn: '2023-12-12T22:00:00Z'
+  #   concurrencyPolicy: Forbid
+  dag:
+    - name: soda-ecpg-quality
+      spec:
+        stack: soda+python:1.0
+        compute: runnable-default
+        resources:
+          requests:
+            cpu: 1000m
+            memory: 250Mi
+          limits:
+            cpu: 1000m
+            memory: 250Mi
+        logLevel: INFO # WARNING, ERROR, DEBUG
+        stackSpec:
+          inputs:
+            - dataset: dataos://lakehouse:nivedhaa/bookings
+              options:
+                engine: minerva
+                clusterName: miniature
+              #profile:
+              #  columns:
+              #    - include *
+              checks:  
+                - schema:
+                    name: Data type of birth year should be integer
+                    fail:
+                      when wrong column type:
+                        firsttransactiondate: date
+                        firsttransactiondatetime: timestamp
+                        productcode: text
+                        grossbookingusd: double
+                        grosspax: bigint
+                        daystotravel: integer
+                        sessionid: text
+                        orgcod: text
+                    attributes:
+                      category: Schema
+
+                - missing_count(firsttransactiondate) = 0:
+                    name: No missing values in firsttransactiondate
+                    attributes:
+                      category: Completeness
+
+                - missing_count(sessionid) = 0:
+                    name: No missing values in sessionid
+                    attributes:
+                      category: Completeness
+
+                - avg(grossbookingusd) > 0:
+                    name: Average gross booking value must be positive
+                    attributes:
+                      category: Accuracy
+
+                - min(daystotravel) >= 0:
+                    name: Days to travel cannot be negative
+                    attributes:
+                      category: Validity
+
+                - duplicate_count(sessionid) = 0:
+                    name: Session ID should not be duplicated
+                    attributes:
+                      category: Uniqueness
+
+                - missing_count(orgcod) = 0:
+                    name: Organization code should not be missing
+                    attributes:
+                      category: Completeness

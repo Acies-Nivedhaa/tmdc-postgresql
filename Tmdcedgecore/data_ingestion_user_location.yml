@@ -1,0 +1,74 @@
+version: v1  # v1
+name: niv-user-loc-data
+type: workflow
+tags:
+  - User Location data
+description: Ingesting user location data into lakehouse from ecpgdepot
+workflow:
+  # schedule:
+  #   cron: '00 20 * * *'
+  #  # endOn: '2023-12-12T22:00:00Z'
+  #   concurrencyPolicy: Forbid
+  dag:
+    - name: dg-niv-user-location-data
+      # title: flatten  Data Ingester
+      # description: The job ingests Adobe flatten  data from S3 into icebase zone
+      spec:
+        tags:
+          - User Location Hierarchy data
+        stack: flare:6.0
+        compute: runnable-default
+        stackSpec:
+          driver:
+            coreLimit: 2000m
+            cores: 1
+            memory: 2000m
+          executor:
+            coreLimit: 2000m
+            cores: 1
+            instances: 1
+            memory: 2000m
+          job:
+            explain: true
+            inputs:
+              - name: user_location
+                dataset: dataos://ecpgdepot:public/vw_user_location_interaction_daily
+                options:
+                  driver: org.postgresql.Driver
+            logLevel: INFO
+            outputs:
+              - name: final_user_loc
+                dataset: dataos://lakehouse:nivedhaa/user_loc?acl=rw
+                format: Iceberg
+                options:
+                  saveMode: overwrite
+                  iceberg:
+                    properties:
+                      write.format.default: parquet
+                      write.metadata.compression-codec: gzip
+                    # partitionSpec:
+                    #   - type: day
+                    #     column: date_time
+                    #     name: day
+            steps:
+              - sequence:
+                  - name: final_user_loc
+                    sql: >
+                      SELECT 
+                        ds,
+                        user_id, 
+                        location_id, 
+                        geo_id,
+                        location_name,
+                        geo_name,
+                        booking_id,
+                        advertiser_id,
+                        campaign_id,
+                        booking_amount,
+                        currency,
+                        booking_status,
+                        impression_count,
+                        interaction_count,
+                        pageview_count
+                      FROM user_location
+

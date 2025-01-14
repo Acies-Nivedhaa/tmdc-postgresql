@@ -1,0 +1,55 @@
+name: ecpgdepot
+version: v1
+type: depot
+tags:
+  - postgre check
+layer: user
+depot:
+  type: JDBC
+  description: test depot for postgres
+  external: true
+  connectionSecret:                               
+    - acl: r
+      type: key-value-properties
+      data:
+        username: ec_adm
+        password: acies_global@1
+    - acl: rw
+      type: key-value-properties
+      data:
+        username: ec_adm
+        password: acies_global@1
+  spec: 
+    subprotocol: postgresql                                         
+    host: database-1.cgqykwjhiqrt.us-east-1.rds.amazonaws.com
+    port: 5432
+    database: analytics_insights_db
+    schema: public
+    table: bookingitem
+
+# name: ecpgdepot
+# version: v1
+# type: depot
+# layer: user
+# depot:
+#   type: JDBC                  
+#   description: {{To write data to postgresql database}}
+#   external: {{true}}
+#   connectionSecret:           
+#     - acl: r
+#       type: key-value-properties
+#       data:
+#         username: {{username}}
+#         password: {{password}}  
+#     - acl: rw
+#       type: key-value-properties
+#       data:
+#         username: {{username}}
+#         password: {{password}}
+#   spec:                        
+#     subprotocol: "postgresql"
+#     host: {{host}}
+#     port: {{port}}
+#     database: {{postgres}}
+#     params: #Required 
+#       sslmode: {{disable}}
