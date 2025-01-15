@@ -10,7 +10,7 @@ description: booking360 lens2 deployment on DataOS
 lens:
   compute: runnable-default # Compute Resource that Lens should utilize (mandatory)
   secrets: # Referred Instance-secret configuration (**mandatory for private code repository, not required for public repository)
-    - name: github-r # Referred Instance Secret name (mandatory)
+    - name: github_cred # Referred Instance Secret name (mandatory)
       allKeys: true # All keys within the secret are required or not (optional)
 
     # Data Source configuration      
@@ -20,7 +20,7 @@ lens:
     catalog: lakehouse # Catalog name for the depot
   repo: # Lens model code repository configuration (mandatory)
     url: https://github.com/Acies-Nivedhaa/tmdc-postgresql/tree/main/Tmdcedgecore # URL of repository containing the Lens model (mandatory)
-    lensBaseDir: Tmdcedgecore/lens_flow # Relative path of the Lens 'model' directory in repository (mandatory)
+    lensBaseDir: Tmdcedgecore/lens_flow/model # Relative path of the Lens 'model' directory in repository (mandatory)
     syncFlags: # Additional flags used during synchronization (optional)
       - --ref=main # Repository Branch (optional)
 # API Instances configuration
