@@ -10,7 +10,7 @@ tables:
     joins:
       - name: user_loc
         relationship: many_to_one
-        sql: "{TABLE.location_id} = {user_loc.location_id}"
+        sql: "{TABLE.location_id = user_loc.location_id}"
 
     dimensions:
         # Name should follow snake-case format
@@ -73,10 +73,17 @@ tables:
       - name: total_bookings
         description: "Total number of bookings"
         # Define custome SQL snippet or map dimension
-        sql: "COUNT( DISTINCT{booking_id})"
+        sql: "COUNT( DISTINCT {booking_id})"
         # Set type for this measure (types - string,time,boolean,number,count,count_distinct,count_distinct_approx,sum,avg,min,max)
         type: number
 
+      - name: avg_interactions_per_user
+        description: "Average interactions per user"
+        # Define custome SQL snippet or map dimension
+        sql: >
+         interaction_count / count(distinct {user_id})
+        # Set type for this measure (types - string,time,boolean,number,count,count_distinct,count_distinct_approx,sum,avg,min,max)
+        type: number
 
     # To create frequently used complex filters 
     # And can also be used to apply row filter policy on a group of users
