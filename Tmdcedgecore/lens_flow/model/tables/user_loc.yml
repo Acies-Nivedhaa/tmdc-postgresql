@@ -6,6 +6,12 @@ tables:
     # Set this property to true/false to control visibilty of table. 
     public: true # table will be visible to everyone
 
+    # To establish relationship with other table (this will always create left join)
+    # joins:
+    #   - name: niv_click_to_book
+    #     relationship: one_to_many
+    #     sql: TABLE.location_id = niv_click_to_book.location_id
+
     dimensions:
         # Name should follow snake-case format
       - name: booking_date
@@ -87,14 +93,16 @@ tables:
       - name: total_bookings
         description: "Total number of bookings"
         # Define custome SQL snippet or map dimension
-        sql: "COUNT(DISTINCT{booking_id})"
+        sql: "COUNT({booking_id})"
         # Set type for this measure (types - string,time,boolean,number,count,count_distinct,count_distinct_approx,sum,avg,min,max)
         type: number
-        # To apply additional filter
-        # filters:
-        #   - sql: "{TABLE}.dimension_name = 'dimension_value' "
-        # meta:
-        #   key: value
+
+      - name: avg_revenue_per_booking
+        description: "Average revenue per booking"
+        # Define custome SQL snippet or map dimension
+        sql: sum(booking_amount)/count(distinct(booking_id))
+        # Set type for this measure (types - string,time,boolean,number,count,count_distinct,count_distinct_approx,sum,avg,min,max)
+        type: number
 
     # To create frequently used complex filters 
     # And can also be used to apply row filter policy on a group of users
