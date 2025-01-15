@@ -1,5 +1,5 @@
 tables:
-  - name: niv_user_location
+  - name: user_loc
     # Path of the sql file, example - {{table_name.sql}}
     sql: {{ load_sql('user_loc') }}
     description: Gives user location details about geography, user info etc.
