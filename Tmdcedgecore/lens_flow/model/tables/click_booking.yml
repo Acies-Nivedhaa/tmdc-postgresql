@@ -8,7 +8,7 @@ tables:
 
     To establish relationship with other table (this will always create left join)
     joins:
-      - name: niv_user_location
+      - name: user_loc
         relationship: many_to_one
         sql: TABLE.location_id = niv_user_location.location_id
 
