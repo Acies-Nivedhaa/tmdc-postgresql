@@ -1,5 +1,5 @@
 tables:
-  - name: niv_click_to_book
+  - name: click_booking
     # Path of the sql file, example - {{table_name.sql}}
     sql: {{ load_sql('click_booking') }}
     description: Captures details of hotel bookings including location, user, campaign, impressions, interactions and booking amounts.
@@ -10,7 +10,7 @@ tables:
     joins:
       - name: user_loc
         relationship: many_to_one
-        sql: "{TABLE.location_id} = {niv_user_location.location_id}"
+        sql: "{TABLE.location_id} = {user_loc.location_id}"
 
     dimensions:
         # Name should follow snake-case format
