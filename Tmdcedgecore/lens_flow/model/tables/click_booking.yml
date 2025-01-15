@@ -76,11 +76,7 @@ tables:
         sql: "COUNT( DISTINCT{booking_id})"
         # Set type for this measure (types - string,time,boolean,number,count,count_distinct,count_distinct_approx,sum,avg,min,max)
         type: number
-        # To apply additional filter
-        # filters:
-        #   - sql: "{TABLE}.dimension_name = 'dimension_value' "
-        # meta:
-        #   key: value
+
 
     # To create frequently used complex filters 
     # And can also be used to apply row filter policy on a group of users
