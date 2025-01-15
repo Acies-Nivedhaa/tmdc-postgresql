@@ -10,13 +10,13 @@ description: booking360 lens2 deployment on DataOS
 lens:
   compute: runnable-default # Compute Resource that Lens should utilize (mandatory)
   secrets: # Referred Instance-secret configuration (**mandatory for private code repository, not required for public repository)
-    - name: github_cred # Referred Instance Secret name (mandatory)
+    - name: github-cred # Referred Instance Secret name (mandatory)
       allKeys: true # All keys within the secret are required or not (optional)
 
     # Data Source configuration      
   source: 
-    type: depot # Source type (could be themis, minerva flash as well)
-    name: ecpgdepot # Source name (name of the depot)
+    type: minerva # Source type (could be themis, minerva flash as well)
+    name: miniature # Source name (name of the depot)
     catalog: lakehouse # Catalog name for the depot
   repo: # Lens model code repository configuration (mandatory)
     url: https://github.com/Acies-Nivedhaa/tmdc-postgresql/tree/main/Tmdcedgecore # URL of repository containing the Lens model (mandatory)
@@ -24,16 +24,16 @@ lens:
     syncFlags: # Additional flags used during synchronization (optional)
       - --ref=main # Repository Branch (optional)
 # API Instances configuration
-#   api:  #(optional)
-#     replicas: 1 # Number of API instance replicas (optional)
-#     logLevel: info # Logging granularity (optional)
-#     resources: # CPU and memory configurations for API Instances (optional)
-#       requests:
-#         cpu: 100m
-#         memory: 256Mi
-#       limits:
-#         cpu: 1000m
-#         memory: 1048Mi
+  api:  #(optional)
+    replicas: 1 # Number of API instance replicas (optional)
+    logLevel: info # Logging granularity (optional)
+    resources: # CPU and memory configurations for API Instances (optional)
+      requests:
+        cpu: 100m
+        memory: 256Mi
+      limits:
+        cpu: 1000m
+        memory: 1048Mi
   worker:  #(optional)
     replicas: 1 # Number of Worker replicas (optional)
     logLevel: debug # Logging level for Worker (optional)
@@ -54,15 +54,15 @@ lens:
         cpu: 1000m
         memory: 2548Mi
 # Iris configuration 
-  iris: #(optional)
-    logLevel: info # Log level for Iris (optional)
-    resources: # CPU and memory resource specifications for the iris board (optional)
-      requests:
-        cpu: 200m
-        memory: 256Mi
-      limits:
-        cpu: 1600m
-        memory: 2240Mi
-# Metric configuration 
-  metric:                         #(optional)
-    logLevel: info # Log level for metrics (optional)
+#   iris: #(optional)
+#     logLevel: info # Log level for Iris (optional)
+#     resources: # CPU and memory resource specifications for the iris board (optional)
+#       requests:
+#         cpu: 200m
+#         memory: 256Mi
+#       limits:
+#         cpu: 1600m
+#         memory: 2240Mi
+# # Metric configuration 
+#   metric:                         #(optional)
+#     logLevel: info # Log level for metrics (optional)

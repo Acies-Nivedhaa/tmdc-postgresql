@@ -1,5 +1,5 @@
 # RESOURCE META SECTION
-name: github_cred # Secret Resource name (mandatory)
+name: github-cred # Secret Resource name (mandatory)
 version: v1 # Secret manifest version (mandatory)
 type: instance-secret # Type of Resource (mandatory)
 description: Github read secrets for code repository # Secret Resource description (optional)

@@ -14,9 +14,9 @@ tables:
 
     dimensions:
         # Name should follow snake-case format
-      - name: booking_date
-        type: date
-        column: booking_date
+      - name: ds
+        type: string
+        column: ds
         description: "Date column"
 
       - name: user_id
