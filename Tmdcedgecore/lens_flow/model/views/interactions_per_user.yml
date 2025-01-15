@@ -1,22 +1,33 @@
 views:
-  - name: user_analysis
+  - name: avg_interactions_per_user
     description: View containing user information
     public: true
     #use meta property to define whether you want to export a view to IRIS board
     meta:
+      title: Average Interactions per user
       #set this property to true if you want to export the view to IRIS board
       export_to_board: true
       board:
         #provide the time dimension to be used for displaying time-series
-        timeseries: niv_user_location.boking_date 
+        timeseries: click_booking.booking_date 
+      metric:
+        expression: "*/45  * * * *"
+        timezone: "UTC"
+        window: "day"
+        # excludes: 
+        #   - mntwines
+        #   - mntmeatproducts
+        #   - mntfishproducts
+        #   - mntsweetproducts
+        #   - mntgoldprods
+        #   - mntfruits
+        #   - numwebpurchases
+        #   - numcatalogpurchases
+        #   - numstorepurchases
     tables:
         # table name to be included in the view
-      - join_path: niv_user_location
+      - join_path: click_booking
         # Set to true to add the table name as prefix to measure/dimension
         prefix: true
         # To include all or specific measures and dimensions
         includes: "*" #'*' will include all measure and dimensions of the table
-        # To exclude specific measures and dimensions
-        # excludes:
-        #   - measure
-        #   - dimension
