@@ -7,66 +7,62 @@ tags:                        # Tags (optional)
     - lens
 description: booking360 lens2 deployment on DataOS 
 
-# LENS-SPECIFIC SECTION
 lens:
-    compute: runnable-default  # Compute Resource for Lens (mandatory)
-    secrets:                   # Instance-secret configuration (mandatory for private code repository, not required for public repository)
-    - name: github-cred         # Referred Instance Secret name (mandatory)
-        allKeys: true          
-    source:                    # Data Source configuration
-    type: minerva            # Source type 
-    name: miniature            # Source name
-    catalog: lakehouse         #in case of minerva or themis
-    repo:                      # Lens2 model code repository config (mandatory)
-    url: https://github.com/Acies-Nivedhaa/tmdc-postgresql/tree/main/Tmdcedgecore         # URL of repository for the Lens model (mandatory)
-    lensBaseDir: Tmdcedgecore/lens_flow # Relative path of the Lens model directory in repository (mandatory)
-    syncFlags:               # Additional flags used during synchronization, such as specific branch.
-        - --ref=main # Repository Branch 
-    API:                       # API Instances configuration (optional)
-    replicas: 1              # Number of API instance replicas (optional)
-    logLevel: info           # Logging granularity (optional)
-    # envs:
-    #     LENS2_SCHEDULED_REFRESH_TIMEZONES: "UTC,America/Vancouver,America/Toronto"
-    #     LENS2_SOURCE_WORKSPACE_NAME: public
-    resources:               # CPU and emory configurations for API Instances (optional)
-        requests:
+  compute: runnable-default # Compute Resource that Lens should utilize (mandatory)
+  secrets: # Referred Instance-secret configuration (**mandatory for private code repository, not required for public repository)
+    - name: github-r # Referred Instance Secret name (mandatory)
+      allKeys: true # All keys within the secret are required or not (optional)
+
+    # Data Source configuration      
+  source: 
+    type: depot # Source type (could be themis, minerva flash as well)
+    name: lakehouse # Source name (name of the depot)
+    catalog: lakehouse # Catalog name for the depot
+  repo: # Lens model code repository configuration (mandatory)
+    url: https://github.com/Acies-Nivedhaa/tmdc-postgresql/tree/main/Tmdcedgecore # URL of repository containing the Lens model (mandatory)
+    lensBaseDir: Tmdcedgecore/lens_flow # Relative path of the Lens 'model' directory in repository (mandatory)
+    syncFlags: # Additional flags used during synchronization (optional)
+      - --ref=main # Repository Branch (optional)
+# API Instances configuration
+#   api:  #(optional)
+#     replicas: 1 # Number of API instance replicas (optional)
+#     logLevel: info # Logging granularity (optional)
+#     resources: # CPU and memory configurations for API Instances (optional)
+#       requests:
+#         cpu: 100m
+#         memory: 256Mi
+#       limits:
+#         cpu: 1000m
+#         memory: 1048Mi
+  worker:  #(optional)
+    replicas: 1 # Number of Worker replicas (optional)
+    logLevel: debug # Logging level for Worker (optional)
+    resources: # CPU and memory configurations for Worker (optional)
+      requests:
         cpu: 100m
         memory: 256Mi
-        limits:
-        cpu: 2000m
-        memory: 2048Mi
-    # worker:                    # Worker configuration (optional)
-    # replicas: 2              # Number of Worker replicas (optional)
-    # logLevel: info           # Logging level (optional)
-    # envs:
-    #     LENS2_SCHEDULED_REFRESH_TIMEZONES: "UTC,America/Vancouver,America/Toronto"
-    #     LENS2_SOURCE_WORKSPACE_NAME: public
-    resources:               # CPU and memory configurations for Worker (optional)
-        requests:
+      limits:
+        cpu: 1000m
+        memory: 1248Mi
+  router:  #(optional)
+    logLevel: info # Level of log detail for Router (optional)
+    resources: # CPU and memory resource specifications for the router (optional)
+      requests:
         cpu: 100m
         memory: 256Mi
-        limits:
-        cpu: 6000m
-        memory: 6048Mi
-    router:                    # Router configuration (optional)
-    logLevel: info  # Level of log detail (optional)
-    # envs:
-    #     LENS2_SCHEDULED_REFRESH_TIMEZONES: "UTC,America/Vancouver,America/Toronto"
-    #     LENS2_SOURCE_WORKSPACE_NAME: public
-    resources:               # CPU and memory resource specifications for the router (optional)
-        requests:
-        cpu: 100m
+      limits:
+        cpu: 1000m
+        memory: 2548Mi
+# Iris configuration 
+  iris: #(optional)
+    logLevel: info # Log level for Iris (optional)
+    resources: # CPU and memory resource specifications for the iris board (optional)
+      requests:
+        cpu: 200m
         memory: 256Mi
-        limits:
-        cpu: 6000m
-        memory: 6048Mi
-    iris:
-    logLevel: info
-    replicas: 1
-    resources:
-        requests:
-        cpu: 100m
-        memory: 256Mi
-        limits:
-        cpu: 4000m
-        memory: 5240Mi
+      limits:
+        cpu: 1600m
+        memory: 2240Mi
+# Metric configuration 
+  metric:                         #(optional)
+    logLevel: info # Log level for metrics (optional)
