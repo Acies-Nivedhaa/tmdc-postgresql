@@ -97,13 +97,13 @@ tables:
         # Set type for this measure (types - string,time,boolean,number,count,count_distinct,count_distinct_approx,sum,avg,min,max)
         type: number
 
-      - name: avg_revenue_per_booking
-        description: "Average revenue per booking"
-        # Define custome SQL snippet or map dimension
-        sql: >
-          sum(booking_amount)/count(distinct(booking_id))
-        # Set type for this measure (types - string,time,boolean,number,count,count_distinct,count_distinct_approx,sum,avg,min,max)
-        type: number
+      # - name: avg_revenue_per_booking
+      #   description: "Average revenue per booking"
+      #   # Define custome SQL snippet or map dimension
+      #   sql: >
+      #     sum(booking_amount)/count(distinct(booking_id))
+      #   # Set type for this measure (types - string,time,boolean,number,count,count_distinct,count_distinct_approx,sum,avg,min,max)
+      #   type: number
 
     # To create frequently used complex filters 
     # And can also be used to apply row filter policy on a group of users

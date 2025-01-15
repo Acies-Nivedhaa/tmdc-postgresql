@@ -6,6 +6,5 @@ SELECT
     hierarchy_level,
     location_name,
     region_name,
-    geo_name,
     parent_hierarchy_id
 FROM lakehouse.nivedhaa.loc_hierarchy
