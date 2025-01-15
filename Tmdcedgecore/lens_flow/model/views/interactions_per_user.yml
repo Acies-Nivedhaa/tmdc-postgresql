@@ -4,7 +4,7 @@ views:
     public: true
     #use meta property to define whether you want to export a view to IRIS board
     meta:
-      title: Average Interactions per user
+      title: avg_interactions_per_user
       #set this property to true if you want to export the view to IRIS board
       export_to_board: true
       board:
@@ -26,7 +26,7 @@ views:
         #   - numstorepurchases
     tables:
         # table name to be included in the view
-      - join_path: click_booking
+      - join_path: user_loc
         # Set to true to add the table name as prefix to measure/dimension
         prefix: true
         # To include all or specific measures and dimensions
