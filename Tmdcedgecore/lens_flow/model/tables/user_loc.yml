@@ -1,16 +1,10 @@
 tables:
   - name: niv_user_location
     # Path of the sql file, example - {{table_name.sql}}
-    sql: load_sql('user_loc')
+    sql: {{ load_sql('user_loc') }}
     description: Gives user location details about geography, user info etc.
     # Set this property to true/false to control visibilty of table. 
     public: true # table will be visible to everyone
-
-    # To establish relationship with other table (this will always create left join)
-    # joins:
-    #   - name: niv_click_to_book
-    #     relationship: one_to_many
-    #     sql: TABLE.location_id = niv_click_to_book.location_id
 
     dimensions:
         # Name should follow snake-case format
@@ -93,7 +87,7 @@ tables:
       - name: total_bookings
         description: "Total number of bookings"
         # Define custome SQL snippet or map dimension
-        sql: "COUNT({booking_id})"
+        sql: "COUNT(DISTINCT{booking_id})"
         # Set type for this measure (types - string,time,boolean,number,count,count_distinct,count_distinct_approx,sum,avg,min,max)
         type: number
         # To apply additional filter
