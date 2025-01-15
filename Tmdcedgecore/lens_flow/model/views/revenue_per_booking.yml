@@ -1,1 +1,33 @@
-
+views:
+  - name: avg_revenue_per_booking
+    description: Average revenue per booking
+    public: true
+    #use meta property to define whether you want to export a view to IRIS board
+    meta:
+      title: Average revenue per booking
+      #set this property to true if you want to export the view to IRIS board
+      export_to_board: true
+      board:
+        #provide the time dimension to be used for displaying time-series
+        timeseries: user_loc.booking_date 
+      metric:
+        expression: "*/45  * * * *"
+        timezone: "UTC"
+        window: "day"
+        # excludes: 
+        #   - mntwines
+        #   - mntmeatproducts
+        #   - mntfishproducts
+        #   - mntsweetproducts
+        #   - mntgoldprods
+        #   - mntfruits
+        #   - numwebpurchases
+        #   - numcatalogpurchases
+        #   - numstorepurchases
+    tables:
+        # table name to be included in the view
+      - join_path: user_loc
+        # Set to true to add the table name as prefix to measure/dimension
+        prefix: true
+        # To include all or specific measures and dimensions
+        includes: "*" #'*' will include all measure and dimensions of the table
