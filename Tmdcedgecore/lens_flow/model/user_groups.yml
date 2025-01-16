@@ -1,5 +1,5 @@
 user_groups:
- - name: default
+  - name: default
     api_scopes:
       - meta
       - data

@@ -19,8 +19,8 @@ lens:
     name: miniature # Source name (name of the depot)
     catalog: lakehouse # Catalog name for the depot
   repo: # Lens model code repository configuration (mandatory)
-    url: https://github.com/Acies-Nivedhaa/tmdc-postgresql/tree/main/Tmdcedgecore # URL of repository containing the Lens model (mandatory)
-    lensBaseDir: Tmdcedgecore/lens_flow/model # Relative path of the Lens 'model' directory in repository (mandatory)
+    url: https://github.com/Acies-Nivedhaa/tmdc-postgresql # URL of repository containing the Lens model (mandatory)
+    lensBaseDir: tmdc-postgresql/Tmdcedgecore/lens_flow/model # Relative path of the Lens 'model' directory in repository (mandatory)
     syncFlags: # Additional flags used during synchronization (optional)
       - --ref=main # Repository Branch (optional)
 # API Instances configuration
