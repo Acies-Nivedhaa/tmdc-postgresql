@@ -48,6 +48,7 @@ tables:
         type: number
         column: booking_id
         description: "Unique identifier for booking"
+        primary_key: true
 
       - name: advertiser_id
         type: number

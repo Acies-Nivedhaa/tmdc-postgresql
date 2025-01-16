@@ -1,19 +1,16 @@
 tables:
   - name: click_booking
-    # Path of the sql file, example - {{table_name.sql}}
     sql: {{ load_sql('click_booking') }}
     description: Captures details of hotel bookings including location, user, campaign, impressions, interactions and booking amounts.
-    # Set this property to true/false to control visibilty of table. 
-    public: true # table will be visible to everyone
+    public: true 
 
-    #To establish relationship with other table (this will always create left join)
+
     joins:
       - name: user_loc
         relationship: many_to_one
         sql: "{TABLE.location_id = user_loc.location_id}"
 
     dimensions:
-        # Name should follow snake-case format
       - name: ds
         type: string
         column: ds
@@ -43,6 +40,7 @@ tables:
         type: number
         column: booking_id
         description: "Unique identifier for booking"
+        primary_key: true
 
       - name: advertiser_id
         type: number
@@ -72,28 +70,9 @@ tables:
     measures:
       - name: total_bookings
         description: "Total number of bookings"
-        # Define custome SQL snippet or map dimension
+ 
         sql: "COUNT( DISTINCT {booking_id})"
-        # Set type for this measure (types - string,time,boolean,number,count,count_distinct,count_distinct_approx,sum,avg,min,max)
+        
         type: number
 
-      # - name: avg_interactions_per_user
-      #   description: "Average interactions per user"
-      #   # Define custome SQL snippet or map dimension
-      #   sql: >
-      #    interaction_count / count(distinct {user_id})
-      #   # Set type for this measure (types - string,time,boolean,number,count,count_distinct,count_distinct_approx,sum,avg,min,max)
-      #   type: number
 
-    # To create frequently used complex filters 
-    # And can also be used to apply row filter policy on a group of users
-    # segments:
-    #   - name: segment_name
-    #     public: true
-    #     # SQL statement for filter
-    #     sql: "{TABLE}.dimension_name = 'dimension_value'"
-    #     meta:
-    #       # To apply pre-defined filter by default to user groups
-    #       secure:
-    #         user_groups:
-    #           - default
