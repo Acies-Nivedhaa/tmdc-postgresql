@@ -1,19 +1,13 @@
 tables:
   - name: user_loc
-    # Path of the sql file, example - {{table_name.sql}}
+
     sql: {{ load_sql('user_loc') }}
     description: Gives user location details about geography, user info etc.
-    # Set this property to true/false to control visibilty of table. 
-    public: true # table will be visible to everyone
-
-    # To establish relationship with other table (this will always create left join)
-    # joins:
-    #   - name: niv_click_to_book
-    #     relationship: one_to_many
-    #     sql: TABLE.location_id = niv_click_to_book.location_id
+ 
+    public: true 
 
     dimensions:
-        # Name should follow snake-case format
+
       - name: ds
         type: string
         column: ds
@@ -23,6 +17,7 @@ tables:
         type: number
         column: user_id
         description: "Unique user ID"
+        primary_key: true
       
       - name: location_id
         type: number
@@ -48,7 +43,6 @@ tables:
         type: number
         column: booking_id
         description: "Unique identifier for booking"
-        primary_key: true
 
       - name: advertiser_id
         type: number
@@ -93,28 +87,8 @@ tables:
     measures:
       - name: total_bookings
         description: "Total number of bookings"
-        # Define custome SQL snippet or map dimension
         sql: "COUNT({booking_id})"
-        # Set type for this measure (types - string,time,boolean,number,count,count_distinct,count_distinct_approx,sum,avg,min,max)
         type: number
 
-      # - name: avg_revenue_per_booking
-      #   description: "Average revenue per booking"
-      #   # Define custome SQL snippet or map dimension
-      #   sql: >
-      #     sum(booking_amount)/count(distinct(booking_id))
-      #   # Set type for this measure (types - string,time,boolean,number,count,count_distinct,count_distinct_approx,sum,avg,min,max)
-      #   type: number
 
-    # To create frequently used complex filters 
-    # And can also be used to apply row filter policy on a group of users
-    # segments:
-    #   - name: segment_name
-    #     public: true
-    #     # SQL statement for filter
-    #     sql: "{TABLE}.dimension_name = 'dimension_value'"
-    #     meta:
-    #       # To apply pre-defined filter by default to user groups
-    #       secure:
-    #         user_groups:
-    #           - default
+
