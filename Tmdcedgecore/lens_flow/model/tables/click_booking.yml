@@ -8,7 +8,7 @@ tables:
     joins:
       - name: user_loc
         relationship: many_to_one
-        sql: "{TABLE.location_id = user_loc.location_id}"
+        sql: "{TABLE.location_id} = {user_loc.location_id}"
 
     dimensions:
       - name: ds
