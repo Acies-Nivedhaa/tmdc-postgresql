@@ -1,0 +1,24 @@
+name: bookinganalysis-bundle
+version: v1beta
+type: bundle
+tags:
+  - dataproduct
+  - Booking analysis
+description: This bundle resource is for booking analysis data product
+layer: "user"
+bundle:
+  resources:
+    - id: lens
+      # file: build/semantic-model/deployment.yml
+      file: C:\Users\Nivedhaa\dataos-ctl-windows-amd64\windows-amd64\Tmdcedgecore\lens_flow\lens.yaml
+      workspace: public
+
+    - id: hotel_bookings
+      file: C:\Users\Nivedhaa\dataos-ctl-windows-amd64\windows-amd64\Tmdcedgecore\tmdc-postgresql\Tmdcedgecore\data_ingestion_hotelclickbookings.yml
+      workspace: public
+
+    - id: user_loc
+      file: C:\Users\Nivedhaa\dataos-ctl-windows-amd64\windows-amd64\Tmdcedgecore\tmdc-postgresql\Tmdcedgecore\data_ingestion_user_location.yml
+      workspace: public
+
+    

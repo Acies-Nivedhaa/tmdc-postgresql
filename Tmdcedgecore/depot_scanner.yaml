@@ -1,17 +1,19 @@
 
-version: v1
-name: ecpgdepotscanner
-type: workflow
+version: v1                                                                                         # Version
+name: ecpgdepotscanner                                                                              # Scanner name
+type: workflow                                                                                      # Type of datasource
 tags:
   - postgres
   - scanner
 description: The job scans schema tables and register metadata
 workflow:
   dag:
-    - name: postgresdepotjob
-      description: The job scans schema from postgres depot tables and register metadata to metis
+    - name: postgresdepotjob                                                                        # DAG name
+      description: The job scans schema from postgres depot tables and register metadata to metis   
       spec:
-        stack: scanner:2.0
+        stack: scanner:2.0                                                                          
         compute: runnable-default
         stackSpec:
-          depot: ecpgdepot          # Postgres depot name
+          depot: ecpgdepot                                                                          # Postgres depot name
+
+# To run the file, .\dataos-ctl apply {scanner-name}

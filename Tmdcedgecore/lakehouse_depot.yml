@@ -1,31 +1,33 @@
-name: ecpgdepot
-version: v1
-type: depot
-tags:
+name: ecpgdepot                                                     # Depot name
+version: v1                                                         # Version
+type: depot                                                         # Type of data
+tags:                                                               
   - postgre check
 layer: user
 depot:
-  type: JDBC
-  description: test depot for postgres
+  type: JDBC                                                        # Type of DataSource
+  description: test depot for postgres                              
   external: true
-  connectionSecret:                               
+  connectionSecret:                                                 # For connection with the instance secret file
     - acl: r
-      type: key-value-properties
+      type: key-value-properties                                    # Access Control - Read Only
       data:
-        username: ec_adm
-        password: acies_global@1
-    - acl: rw
+        username: ec_adm                                            # Username
+        password: acies_global@1                                    # Password
+    - acl: rw                                                       # Access Control - Read Write
       type: key-value-properties
       data:
         username: ec_adm
         password: acies_global@1
   spec: 
-    subprotocol: postgresql                                         
-    host: database-1.cgqykwjhiqrt.us-east-1.rds.amazonaws.com
-    port: 5432
-    database: analytics_insights_db
-    schema: public
-    table: bookingitem
+    subprotocol: postgresql                                         # Modify based on data source
+    host: database-1.cgqykwjhiqrt.us-east-1.rds.amazonaws.com       # host address
+    port: 5432                                                      # Port number
+    database: analytics_insights_db                                 # Database name
+    schema: public                                                  # Schema name
+    table: bookingitem                                              # Table name
+
+# To run the file, .\dataos-ctl apply {depot-name}
 
 # name: ecpgdepot
 # version: v1

@@ -1,0 +1,38 @@
+name: bookings-data-product
+version: v1beta
+entity: product
+type: data
+
+description: Analysing booking information
+
+# refs:
+# - title: 
+#   href: https://dataos.info/interfaces/cli/command_reference/#workspace
+
+v1beta:
+  data:
+    meta:
+      title: Booking Data Product
+      # sourceCodeUrl: https://github.com/Siva1316/Data_Os_Handson
+      sourceCodeUrl: https://github.com/Acies-Nivedhaa/tmdc-postgresql/tree/main/Tmdcedgecore
+      # trackerUrl: https://rubikai.atlassian.net/browse/DPRB-65
+ 
+    collaborators:
+      - name: acies04
+        description: owner
+    
+    resource:
+      refType: dataos
+      ref: bundle:v1beta:bookinganalysis-bundle
+
+    inputs:
+      - refType: dataos
+        ref: dataos://lakehouse:nivedhaa/hotel_bookings
+
+      - refType: dataos
+        ref: dataos://lakehouse:nivedhaa/user_loc
+
+    ports:
+      lens:
+        ref: lens:v1alpha:nivbooking360:public
+        refType: dataos
